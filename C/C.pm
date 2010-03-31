@@ -1,5 +1,5 @@
 package Inline::C;
-$VERSION = '0.46';
+$VERSION = '0.46_01';
 
 use strict;
 require Inline;
@@ -327,6 +327,7 @@ END
 # Create and initialize a parser
 sub get_parser {
     my $o = shift;
+    Inline::C::_parser_test("Inline::C::get_parser called\n") if $o->{CONFIG}{_TESTING};
     require Inline::C::ParseRecDescent;
     Inline::C::ParseRecDescent::get_parser($o);
 }
@@ -363,6 +364,7 @@ sub get_maps {
 sub get_types {
     my (%type_kind, %proto_letter, %input_expr, %output_expr);
     my $o = shift;
+    local $_;
     croak "No typemaps specified for Inline C code"
       unless @{$o->{ILSM}{MAKEFILE}{TYPEMAPS}};
 
@@ -534,6 +536,20 @@ END
 
 sub xs_bindings {
     my $o = shift;
+    my $dir = '_Inline_test';
+
+    if($o->{CONFIG}{_TESTING}) {
+      if(! -d $dir) {
+        my $ok = mkdir $dir;
+        warn $! if !$ok;
+      }
+
+      if(! -f "$dir/void_test") {
+        warn $! if !open(TEST_FH, '>', "$dir/void_test");
+        warn $! if !close(TEST_FH);
+      }
+    }
+
     my ($pkg, $module) = @{$o->{API}}{qw(pkg module)};
     my $prefix = (($o->{ILSM}{XS}{PREFIX}) ?
 		  "PREFIX = $o->{ILSM}{XS}{PREFIX}" :
@@ -573,6 +589,28 @@ END
 	my $arg_name_list = join(', ', @arg_names);
 
 	if ($return_type eq 'void') {
+	if($o->{CONFIG}{_TESTING}) {
+      $XS .= <<END;
+	PREINIT:
+	PerlIO* stream;
+	I32* temp;
+	PPCODE:
+	temp = PL_markstack_ptr++;
+	$function($arg_name_list);
+      stream = PerlIO_open(\"$dir/void_test\", \"a\");
+      if(stream == NULL) warn(\"%s\\n\", \"Unable to open $dir/void_test for appending\");
+	if (PL_markstack_ptr != temp) {
+	  PerlIO_printf(stream, \"%s\\n\", \"TRULY_VOID\");
+	  PerlIO_close(stream);
+	  PL_markstack_ptr = temp;
+	  XSRETURN_EMPTY; /* return empty stack */
+        }
+	PerlIO_printf(stream, \"%s\\n\", \"LIST_CONTEXT\");
+	PerlIO_close(stream);
+	return; /* assume stack size is correct */
+END
+	  }
+	  else {
 	    $XS .= <<END;
 	PREINIT:
 	I32* temp;
@@ -587,6 +625,7 @@ END
         /* must have used dXSARGS; list context implied */
 	return; /* assume stack size is correct */
 END
+	  }
 	}
 	elsif ($listargs) {
 	    $XS .= <<END;
@@ -815,6 +854,39 @@ sub fix_make {
 	}
     }
     close MAKEFILE;
+}
+
+#==============================================================================
+# This routine used by C/t/09parser to test that the expected parser is in use
+#==============================================================================
+
+sub _parser_test {
+    my $dir = '_Inline_test';
+    if(! -d $dir) {
+      my $ok = mkdir $dir;
+      warn $! if !$ok;
+    }
+
+    warn $! if !open(TEST_FH, '>>', "$dir/parser_id");
+
+    print TEST_FH $_[0];
+    warn $! if !close(TEST_FH);
+}
+
+#=======================================================================
+# This routine used to cleanup files created by _TESTING (config option)
+#=======================================================================
+
+sub _testing_cleanup {
+    my $dir = '_Inline_test';
+
+    if(-f "$dir/parser_id") {
+      warn "Failed to unlink C/$dir/parser_id\n" if !unlink("$dir/parser_id");
+    }
+
+    if(-f "$dir/void_test") {
+      warn "Failed to unlink C/$dir/void_test\n" if !unlink("$dir/void_test");
+    }
 }
 
 1;

@@ -1,8 +1,8 @@
 package Inline;
 
 use strict;
-require 5.005;
-$Inline::VERSION = '0.46';
+require 5.006;
+$Inline::VERSION = '0.46_01';
 
 use AutoLoader 'AUTOLOAD';
 use Inline::denter;
@@ -22,6 +22,9 @@ my $safemode = 0;
 $Inline::languages = undef; #needs to be global for AutoLoaded error messages
 
 our $did = '_Inline'; # Default Inline Directory
+
+# This is the config file written by create_config_file().
+our $configuration_file = 'config-' . $Config::Config{'archname'} . '-' . $];
 
 my %shortcuts =
   (
@@ -65,6 +68,7 @@ my $default_config =
    BUILD_TIMERS => 0,
    WARNINGS => 1,
    _INSTALL_ => 0,
+   _TESTING => 0,
   };
 
 sub UNTAINT {$untaint}
@@ -308,8 +312,11 @@ sub push_overrides {
             next if defined $o->{OVERRIDDEN}{$ilsm . "::$override"};
             $o->{OVERRIDDEN}{$ilsm . "::$override"} =
               \&{$ilsm . "::$override"};
+            {
+            no warnings 'redefine';
             *{$ilsm . "::$override"} =
               \&{$using_module . "::$override"};
+            }
         }
     }
 }
@@ -713,24 +720,33 @@ sub check_config_file {
     }
 
     $o->create_config_file($DIRECTORY)
-      if not -e File::Spec->catfile($DIRECTORY,"config");
+      if not -e File::Spec->catfile($DIRECTORY, $configuration_file);
 
-    open CONFIG, "< ".File::Spec->catfile($DIRECTORY,"config")
+    open CONFIG, "< ".File::Spec->catfile($DIRECTORY, $configuration_file)
       or croak M17_config_open_failed($DIRECTORY);
     my $config = join '', <CONFIG>;
     close CONFIG;
 
-    croak M62_invalid_config_file(File::Spec->catfile($DIRECTORY,"config"))
+    croak M62_invalid_config_file(File::Spec->catfile($DIRECTORY, $configuration_file))
       unless $config =~ /^version :/;
-    ($config) = $config =~ /(.*)/s if UNTAINT;
+    if(UNTAINT) {
+      warn "In Inline::check_config_file(): Blindly untainting Inline configuration file information.\n" unless $o->{CONFIG}{NO_UNTAINT_WARN};
+      ($config) = $config =~ /(.*)/s;
+    }
 
     %config = Inline::denter->new()->undent($config);
     $Inline::languages = $config{languages};
 
+    {
+    no warnings ('numeric'); # These warnings were a pain with devel releases.
+                             # If there's a problem with the version number, the
+                             # error message will output $config{version} anyway.
     croak M18_error_old_version($config{version}, $DIRECTORY)
 	unless (defined $config{version} and
                 $config{version} =~ /TRIAL/ or
 		$config{version} >= 0.40);
+    } # numeric warnings re-enabled.
+
     croak M19_usage_language($o->{API}{language_id}, $DIRECTORY)
       unless defined $config{languages}->{$o->{API}{language_id}};
     $o->{API}{language} = $config{languages}->{$o->{API}{language_id}};
@@ -815,7 +831,7 @@ sub create_config_file {
 	closedir LIB;
     }
 
-    my $file = File::Spec->catfile($ARGV[0],"config");
+    my $file = File::Spec->catfile($ARGV[0], $configuration_file);
     open CONFIG, "> $file" or croak M24_open_for_output_failed($file);
     print CONFIG Inline::denter->new()
       ->indent(*version => $Inline::VERSION,
@@ -1010,8 +1026,11 @@ sub env_untaint {
     my $o = shift;
     warn "In Inline::env_untaint() : Blindly untainting tainted fields in %ENV.\n" unless $o->{CONFIG}{NO_UNTAINT_WARN};
 
-    for (keys %ENV) {
-	($ENV{$_}) = $ENV{$_} =~ /(.*)/;
+    {
+    no warnings ('uninitialized'); # In case $ENV{$_} is set to undef.
+      for (keys %ENV) {
+	  ($ENV{$_}) = $ENV{$_} =~ /(.*)/;
+      }
     }
 
     $ENV{PATH} = $^O eq 'MSWin32' ?
@@ -1515,7 +1534,7 @@ END
 
 sub M17_config_open_failed {
     my ($dir) = @_;
-    my $file = File::Spec->catfile(${dir},"config");
+    my $file = File::Spec->catfile(${dir}, $configuration_file);
     return <<END;
 Can't open ${file} for input.
 
@@ -1538,6 +1557,7 @@ END
 
 sub M19_usage_language {
     my ($language, $directory) = @_;
+    require Config;
     return <<END;
 Error. You have specified '$language' as an Inline programming language.
 
@@ -1547,7 +1567,7 @@ I currently only know about the following languages:
      }
 
 If you have installed a support module for this language, try deleting the
-config file from the following Inline DIRECTORY, and run again:
+config-${Config::Config{'archname'}}-$] file from the following Inline DIRECTORY, and run again:
 
     $directory
 
@@ -1556,7 +1576,7 @@ END
 
 sub M20_config_creation_failed {
     my ($dir) = @_;
-    my $file = File::Spec->catfile(${dir},"config");
+    my $file = File::Spec->catfile(${dir}, $configuration_file);
     return <<END;
 Failed to autogenerate ${file}.
 
