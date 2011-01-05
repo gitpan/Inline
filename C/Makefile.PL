@@ -92,6 +92,7 @@ END
 }
 
 sub find_executable {
+    return 1 if -e $_[0];
     my($cc) = @_;
     my $comp = (split /\./, $cc)[0];
 
