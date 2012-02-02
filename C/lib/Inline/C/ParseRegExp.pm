@@ -172,7 +172,7 @@ Mitchell N Charity <mcharity@vendian.org>
 
 Copyright (c) 2002. Brian Ingerson.
 
-Copyright (c) 2008, 2010, 2011. Sisyphus.
+Copyright (c) 2008, 2010-2012. Sisyphus.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
