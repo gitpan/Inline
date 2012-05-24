@@ -1,9 +1,31 @@
 Revision history for Perl extension Inline::C.
 
+0.50_02 Thur 24 May 2012
+      Version 0.50_02 released to CPAN.
+
+0.50_02 Tues 20 Mar 2012
+      C.pm - Add CCFLAGSEX and PRE_HEAD config options.
+      C.pod - Document CCGLAGSEX and PRE_HEAD.
+      Add new test files t/15ccflags.t, t/16ccflagsex.t, t/17prehead.t
+       and t/prehead.in.
+      ../MANIFEST - Add new files.
+
+0.50_02 Sun 18 Mar 2012
+      C.pod - Rewrite CCFLAGS documentation to make it clear that setting
+              it clobbers the existing CCFLAGS (which is $Config{ccflags}).
+              Thanks, BrowserUk.
+      ../Inline-FAQ.pod - Document the C/t/09parser.t test failure that
+                          can occur when Cygwin is in need of 'rebaseall'
+                          - and what to do about it. Thanks, davido.
+
+0.50_02 Tues 14 Feb 2012
+      C.pm - Bump version number to 0.50_02
+
 0.50_01 Sun 12 Feb 2012
       0.50_01 released to CPAN
       lib/Inline/C/ParseRegExp.pm - Accommodate 'void' argument.
       t/14void_arg.t - Test that 'void' arg gets processed as desired.
+      C.pod - Document new standing of 'void' argument.
 
 0.50_01 Wed 8 Feb 2012
       C.pm - Bump version number to 0.50_01

@@ -25,13 +25,15 @@ I probably need to be more emphatic about the roll of _Inline/ cache
 directories. Since they are created automatically, they are completely
 disposable. I delete them all the time. And it is fine to have a
 different one for each project. In fact as long as you don't have
-~/.Inline/ defined, Inline will create a new ./_Inline directory. You
-can move that to ./.Inline and it will continue to work if you want to
-give it more longevity and hide it from view. There is a long
-complicated list of rules about how [_.]Inline/ directories are
+~/.Inline/ defined, Inline will create a new ./_Inline directory (unless,
+you've done something to override this automatic process - such as
+using the DIRECTORY config option, or using the PERL_INLINE_DIRECTORY
+environment variable). You can move that to ./.Inline and it will continue
+to work if you want togive it more longevity and hide it from view. There
+is a long complicated list of rules about how [_.]Inline/ directories are
 used/created. But it was designed to give you the most
 flexibility/ease-of-use. Never be afraid to nuke 'em. They'll just pop
-right back next time. :)
+right back next time they're needed. :)
 
 =head2 Whatever happened to the SITE_INSTALL option?
 
@@ -61,9 +63,12 @@ Inline extension (Inline based module) with 0.40:
        => Foo => VERSION => 1.23'
     7) Make sure NAME matches your package name ('Foo'), or begins with
        'Foo::'.
-    8) Make sure VERSION matches $Foo::VERSION. This must be a string (not a
+    8) If you want to quiet a harmless warning that will appear when the
+       module is loaded via "require", do "Inline->init();".
+       See "Writing Modules with Inline" in the Inline pod for details.
+    9) Make sure VERSION matches $Foo::VERSION. This must be a string (not a
        number) matching /^\d\.\d\d$/
-    9) Do the perl/make/test/install dance (thanks binkley :)
+    10) Do the perl/make/test/install dance (thanks binkley :)
 
 With Inline 0.41 (or thereabouts) you can skip steps 3 & 4, and just
 say 'perl -MInline=INSTALL ./Foo.pm'. This will work for non-Inline
@@ -194,5 +199,15 @@ If this seems too hard, then in a future version you should be able to
 just type:
 
     make ppm
+
+=head2 Why does C/t/09parser.t fail on Cygwin ?
+
+It doesn't always fail on Cygwin, but if you find that it produces
+"unable to remap .... to same address as parent" errors during the
+build phase, then it's time for you to run rebaseall.
+
+See http://cygwin.com/faq/faq-nochunks.html#faq.using.fixing-fork-failures
+and, if needed, seek further help from the Cygwin mailing list.
+
 
 =cut
