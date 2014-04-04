@@ -77,3 +77,5 @@ t/06rewrite_config.p
 t/07rewrite2_config.t
 t/07rewrite2_config.p
 t/file
+META.yml                                 Module YAML meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)
