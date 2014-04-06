@@ -1,5 +1,5 @@
 package Inline::C;
-$Inline::C::VERSION = '0.54_02';
+$Inline::C::VERSION = '0.54_01';
 $Inline::C::VERSION = eval $Inline::C::VERSION;
 
 use strict;
@@ -812,14 +812,18 @@ sub make {
     my ($o) = @_;
     my $make = $o->{ILSM}{MAKE} || $Config::Config{make}
       or croak "Can't locate your make binary";
-    local $ENV{MAKEFLAGS} = $ENV{MAKEFLAGS} =~ s/(--jobserver-fds=[\d,]+)//;
+    if($ENV{MAKEFLAGS}) { # Avoid uninitialized warnings
+      local $ENV{MAKEFLAGS} = $ENV{MAKEFLAGS} =~ s/(--jobserver-fds=[\d,]+)//;
+    }
     $o->system_call("$make", 'out.make');
 }
 sub make_install {
     my ($o) = @_;
     my $make = $o->{ILSM}{MAKE} || $Config::Config{make}
       or croak "Can't locate your make binary";
-    local $ENV{MAKEFLAGS} = $ENV{MAKEFLAGS} =~ s/(--jobserver-fds=[\d,]+)//;
+    if($ENV{MAKEFLAGS}) { # Avoid uninitialized warnings
+      local $ENV{MAKEFLAGS} = $ENV{MAKEFLAGS} =~ s/(--jobserver-fds=[\d,]+)//;
+    }
     $o->system_call("$make pure_install", 'out.make_install');
 }
 sub cleanup {
@@ -878,12 +882,12 @@ $build_dir
 To debug the problem, cd to the build directory, and inspect the output files.
 
 END
-    if ($cmd =~ /^make >/) {
-      for (sort keys %ENV) {
-        $output .= "$_ = $ENV{$_}\n" if /^MAKE/;
-      }
-    }
-    return $output;
+   if ($cmd =~ /^make >/) {
+     for (sort keys %ENV) {
+       $output .= "$_ = $ENV{$_}\n" if /^MAKE/;
+     }
+   }
+   return $output;
 }
 
 #==============================================================================
