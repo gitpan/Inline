@@ -16,4 +16,4 @@ no_index:
     - inc
 resources:
   repository: https://github.com/ingydotnet/inline-pm.git
-version: 0.54_05
+version: 0.55
