@@ -2,7 +2,7 @@
     "perl" : "v6",
     "name" : "Inline",
     "description" : "use C-code from within Perl",
-    "version" : "v1",
+    "version" : "v1.1",
     "build-depends" : [ ],
     "test-depends" : [ ],
     "depends" : [ "NativeCall" ],
