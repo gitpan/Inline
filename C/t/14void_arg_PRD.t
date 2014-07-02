@@ -1,3 +1,6 @@
+# Tests handling of the "void" arg with Parse::RecDescent parser.
+# Tests 4 onwards are not expected to pass - so we make them TODO.
+
 BEGIN {
   if (exists $ENV{PERL_INSTALL_ROOT}) {
     warn "\nIgnoring \$ENV{PERL_INSTALL_ROOT} in $0\n";
@@ -13,7 +16,7 @@ use Test::More;
 use Inline C => Config =>
     FORCE_BUILD => 1,
     DIRECTORY => '_Inline_test',
-    USING => 'ParseRegExp';
+    USING => 'ParseRecDescent';
 
 my $c_text = <<'EOC';
 
@@ -72,12 +75,17 @@ EOC
 Inline->bind(C => $c_text);
 
 sub run_tests {
-  for my $f (qw(foo1 foo4 foo7 foo10)) { eval "$f();"; is($@, '', $f); }
-  for my $f (qw(foo2 foo3 foo5 foo6)) { no strict 'refs'; is(&$f, 42, $f); }
-  for my $f (qw(foo8 foo9)) { no strict 'refs'; is(&$f, 43, $f); }
-  for my $f (qw(foo11 foo12)) { no strict 'refs'; is(&$f, 44, $f); }
+  for my $f (qw(foo4)) { eval "$f();"; is($@, '', $f); }
+  for my $f (qw(foo5 foo6)) { no strict 'refs'; is(&$f, 42, $f); }
+  for my $f (qw(foo1 foo2 foo3 foo7foo8 foo9 foo10 foo11 foo12)) {
+      TODO: {
+          local $TODO = "Not expected to succeed with ParseRecDescent parser";
+          eval "$f();"; is($@, '', $f);
+      };
+ }
 }
 
 run_tests();
 done_testing;
+
 

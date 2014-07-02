@@ -1,6 +1,6 @@
 package Inline::C;
-$Inline::C::VERSION = '0.55_02';
-$Inline::C::VERSION = eval $Inline::C::VERSION;
+our $VERSION = "0.55_03";
+$VERSION = eval $VERSION;
 
 use strict;
 require Inline;
@@ -11,7 +11,7 @@ use Cwd qw(cwd abs_path);
 use File::Spec;
 use Fcntl ':flock';
 
-@Inline::C::ISA = qw(Inline);
+our @ISA = qw(Inline);
 
 #==============================================================================
 # Register this module as an Inline language support module
@@ -852,7 +852,8 @@ sub system_call {
       defined $ENV{PERL_INLINE_BUILD_NOISY}
       ? $ENV{PERL_INLINE_BUILD_NOISY}
       : $o->{CONFIG}{BUILD_NOISY};
-    $build_noisy = undef if $build_noisy and $^O eq 'MSWin32' and $Config::Config{sh} =~ /^cmd/;
+    # test this functionality with:
+    #perl -MInline=C,Config,BUILD_NOISY,1,FORCE_BUILD,1 -e "use Inline C => q[void inline_warner() { int *x = 2; }]"
     if (not $build_noisy) {
         $cmd = "$cmd > $output_file 2>&1";
     }

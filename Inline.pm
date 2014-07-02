@@ -2,8 +2,8 @@ package Inline;
 
 use strict;
 require 5.006;
-$Inline::VERSION = '0.55_02';
-$Inline::VERSION = eval $Inline::VERSION;
+our $VERSION = '0.55_03';
+$VERSION = eval $VERSION;
 
 use AutoLoader 'AUTOLOAD';
 use Inline::denter;
@@ -1048,10 +1048,7 @@ sub with_configs {
     my $o = shift;
     my @configs;
     for my $mod (@{$o->{CONFIG}{WITH}}) {
-	my $ref = eval {
-	    no strict 'refs';
-	    &{$mod . "::Inline"}($o->{API}{language});
-	};
+	my $ref = eval { $mod->Inline($o->{API}{language}); };
 	croak M25_no_WITH_support($mod, $@) if $@;
 	push @configs, %$ref;
     }
