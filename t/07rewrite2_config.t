@@ -24,5 +24,6 @@ warnings_like {require_rewrite()} [qr/$w/], 'warn_test';
 ok($@, '"Inline Bogus" test');
 
 sub require_rewrite {
-    eval {require './t/07rewrite2_config.p';};
+    my $t = -d 't' ? 't' : 'test';
+    eval {require "./$t/07rewrite2_config.p";};
 }

@@ -22,5 +22,6 @@ my $w = 'config file removal successful';
 warnings_like {require_rewrite()} [qr/$w/], 'warn_test';
 
 sub require_rewrite {
-    require './t/06rewrite_config.p';
+    my $t = -d 't' ? 't' : 'test';
+    require "./$t/06rewrite_config.p";
 }
