@@ -20,9 +20,12 @@ no_index:
     - example
 requires:
   Digest::MD5: '0'
+  File::Spec: '0.8'
+  Test::More: '0.88'
+  Test::Warn: '0.23'
   perl: v5.6.0
 resources:
   bugtracker: https://github.com/ingydotnet/inline-pm/issues
   homepage: https://github.com/ingydotnet/inline-pm
   repository: https://github.com/ingydotnet/inline-pm.git
-version: '0.57'
+version: '0.58'

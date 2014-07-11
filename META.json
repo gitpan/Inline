@@ -35,6 +35,9 @@
       "runtime" : {
          "requires" : {
             "Digest::MD5" : "0",
+            "File::Spec" : "0.8",
+            "Test::More" : "0.88",
+            "Test::Warn" : "0.23",
             "perl" : "v5.6.0"
          }
       }
@@ -51,6 +54,6 @@
          "web" : "https://github.com/ingydotnet/inline-pm"
       }
    },
-   "version" : "0.57"
+   "version" : "0.58"
 }
 
