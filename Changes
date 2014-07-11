@@ -1,3 +1,8 @@
+0.56_03
+ - The "with" interface changed slightly - to get right $language use
+   $_[-1].
+ - Add Contrib file
+
 0.56_02 Thu Jul 10 03:36:04 BST 2014
  - Remove AutoLoader stuff.
 
