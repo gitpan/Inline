@@ -22,7 +22,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Digest::MD5" => 0
   },
-  "VERSION" => "0.56_03",
+  "VERSION" => "0.57",
   "test" => {
     "TESTS" => "t/*.t"
   }

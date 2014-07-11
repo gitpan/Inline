@@ -1,3 +1,6 @@
+0.57 Fri Jul 11 02:05:00 BST 2014
+ - Inline::C separated from Inline
+
 0.56_03
  - The "with" interface changed slightly - to get right $language use
    $_[-1].
