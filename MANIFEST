@@ -27,7 +27,6 @@ lib/Inline/MakeMaker.pm
 lib/Inline/MakeMaker/Changes
 lib/Inline/Support.pod
 lib/Inline/denter.pm
-t/00init.t
 t/01usages.t
 t/02config.t
 t/03errors.t
@@ -37,6 +36,6 @@ t/06rewrite_config.p
 t/06rewrite_config.t
 t/07rewrite2_config.p
 t/07rewrite2_config.t
-t/99final.t
+t/TestInlineSetup.pm
 t/file
 t/release-pod-syntax.t
