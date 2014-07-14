@@ -1,3 +1,9 @@
+0.61 Sun Jul 13 21:47:14 PDT 2014
+ - Make Inline dep on perl 5.8.1 per The Lancaster Consensus
+ - https://github.com/Perl-Toolchain-Gang/toolchain-site/blob/master/lancas
+   ter-consensus.md#minimum-supported-perl
+ - Fix Metadata errors
+
 0.60 Sun Jul 13 21:19:48 PDT 2014
  - Use the new ZD Contributing file
 

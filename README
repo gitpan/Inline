@@ -1,5 +1,5 @@
 NAME
-    Inline - Write Perl subroutines in other programming languages.
+    Inline - Write Perl Subroutines in Other Programming Languages
 
 SYNOPSIS
         use Inline C;
