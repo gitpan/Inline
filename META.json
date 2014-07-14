@@ -36,7 +36,7 @@
          "requires" : {
             "Digest::MD5" : "0",
             "File::Spec" : "0.8",
-            "perl" : "v5.6.0"
+            "perl" : "v5.8.1"
          }
       },
       "test" : {
@@ -58,6 +58,6 @@
          "web" : "https://github.com/ingydotnet/inline-pm"
       }
    },
-   "version" : "0.61"
+   "version" : "0.62"
 }
 

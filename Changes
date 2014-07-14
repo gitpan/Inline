@@ -1,3 +1,6 @@
+0.62 Sun Jul 13 21:49:16 PDT 2014
+ - Actually make the 5.8.1 change I said I did in 0.61
+
 0.61 Sun Jul 13 21:47:14 PDT 2014
  - Make Inline dep on perl 5.8.1 per The Lancaster Consensus
  - https://github.com/Perl-Toolchain-Gang/toolchain-site/blob/master/lancas

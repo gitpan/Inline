@@ -23,9 +23,9 @@ no_index:
 requires:
   Digest::MD5: '0'
   File::Spec: '0.8'
-  perl: v5.6.0
+  perl: v5.8.1
 resources:
   bugtracker: https://github.com/ingydotnet/inline-pm/issues
   homepage: https://github.com/ingydotnet/inline-pm
   repository: https://github.com/ingydotnet/inline-pm.git
-version: '0.61'
+version: '0.62'
