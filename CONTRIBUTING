@@ -1,31 +1,55 @@
-How to Contribute to Inline
-===========================
+Contributing
+============
 
-Inline needs your help. Please consider contributing to the Inline project.
-This document provides instructions and tips on how to do so.
+The "Inline" Project needs your help!
 
-Report any bugs or features "here"[https://github.com/ingydotnet/inline-pm/issues].
+Please consider being a contributor. This file contains instructions that will
+help you be an effective contributor to the Project.
 
-Get the code:
+GitHub
+------
 
-  git clone git@github.com:ingydotnet/inline-pm
+The code for this Project is hosted at GitHub. The repository is:
 
-Run the tests:
+  git@github.com/ingydotnet/inline-pm
 
-  make test
+You can get the code with this command:
 
-Join other contributors on IRC: irc.perl.org#inline
+  git clone git@github.com/ingydotnet/inline-pm
 
-Write tests, write code, and send pull requests on GitHub.
+If you've found a bug or a missing feature that you would like the author to
+know about, report it here:
 
-# Zilla-Dist
+  https://github.com/ingydotnet/inline-pm/issues
 
-Inline currently uses a packaging system called Zilla-Dist (from CPAN). You
-will need this to run some of the Makefile targets. Unless you are actually
-releasing this code to CPAN, you probably don't need it.
+or fix it and submit a pull request here:
 
-If you do need Zilla::Dist, just install it from CPAN. It currently takes a
-long time to install, but you only need to install it once. The fastest way to
-install it is:
+  git@github.com/ingydotnet/inline-pm/pulls
 
-  cpanm -n Zilla::Dist
+See these links for help on interacting with GitHub:
+
+* https://help.github.com/
+* https://help.github.com/articles/creating-a-pull-request
+
+Zilla::Dist
+-----------
+
+This Project uses Zilla::Dist to prepare it for publishing to CPAN. Read:
+
+  https://metacpan.org/pod/distribution/Zilla-Dist/lib/Zilla/Dist/Contributing.pod
+
+for up-to-date instructions on what contributors like yourself need to know to
+use it.
+
+IRC
+---
+
+Inline has an IRC channel where you can find real people to help you:
+
+  irc.perl.org#inline
+
+Join the channel. Join the team!
+
+
+    Thanks in advance, Ingy döt Net
+

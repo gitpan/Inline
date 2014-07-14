@@ -1,3 +1,6 @@
+0.60 Sun Jul 13 21:19:48 PDT 2014
+ - Use the new ZD Contributing file
+
 0.59 Sat Jul 12 12:11:10 PDT 2014
  - Finish migrating and updating docs
 
@@ -7,7 +10,7 @@
 0.57 Fri Jul 11 02:05:00 BST 2014
  - Inline::C separated from Inline
 
-0.56_03
+0.56_03 Thu Jul 10 13:36:04 BST 2014
  - The "with" interface changed slightly - to get right $language use
    $_[-1].
  - Add Contrib file
