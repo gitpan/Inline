@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker();
 use Carp;
 
 our @EXPORT = qw(WriteMakefile WriteInlineMakefile);
-our $VERSION = '0.63';
+our $VERSION = '0.64';
 
 sub WriteInlineMakefile {
 #    warn <<END;
@@ -61,6 +61,7 @@ END
                     my ($vol, $dirs, $file) = File::Spec->splitpath(substr($path, length($lib)+1));
                     my @dirs = File::Spec->splitdir($dirs);
                     pop @dirs unless length($dirs[$#dirs]);
+                    next unless ($file =~ /.pm$/);
                     $file =~ s/\.[^.]+$//;
 
                     push @objects, join('::', @dirs, $file);

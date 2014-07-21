@@ -1,7 +1,7 @@
 use strict; use warnings;
 package Inline;
 
-our $VERSION = '0.63';
+our $VERSION = '0.64';
 
 use Inline::denter;
 use Config;
@@ -703,7 +703,7 @@ sub check_config_file {
     my ($DIRECTORY, %config);
     my $o = shift;
 
-    croak M14_usage_Config() if %main::Inline::Config::;
+    croak 'check_config_file: '.M14_usage_Config() if %main::Inline::Config::;
     croak M63_no_source($o->{API}{pkg})
       if $o->{INLINE}{md5} eq $o->{API}{code};
 
@@ -738,7 +738,9 @@ sub check_config_file {
 
            open CONFIG, "< ".File::Spec->catfile($DIRECTORY,$configuration_file)
              or croak M17_config_open_failed($DIRECTORY);
+           flock(CONFIG, LOCK_EX) if $^O !~ /^VMS|riscos|VOS$/;
            my $config = join '', <CONFIG>;
+           flock(CONFIG, LOCK_UN) if $^O !~ /^VMS|riscos|VOS$/;
            close CONFIG;
 
            unless($config =~ /^version :/) {
@@ -1545,7 +1547,8 @@ sub M14_usage_Config {
 As of Inline v0.30, use of the Inline::Config module is no longer supported
 or allowed. If Inline::Config exists on your system, it can be removed. See
 the Inline documentation for information on how to configure Inline.
-(You should find it much more straightforward than Inline::Config :-)
+
+(Module was loaded from $INC{File::Spec::Unix->catfile('Inline','Config.pm')})
 
 END
 }
