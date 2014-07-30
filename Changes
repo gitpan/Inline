@@ -1,3 +1,6 @@
+0.65 Wed Jul 30 04:18:50 BST 2014
+ - Update docs and M14_usage_Config error message
+
 0.64 Sat Jul 19 22:19:18 BST 2014
  - Instrument "Inline::Config" error
  - Lock reading as well as writing of config file
