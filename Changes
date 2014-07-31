@@ -1,3 +1,6 @@
+0.66 Fri Aug  1 00:43:36 BST 2014
+ - Change Inline::Config check to avoid false positives
+
 0.65 Wed Jul 30 04:18:50 BST 2014
  - Update docs and M14_usage_Config error message
 
