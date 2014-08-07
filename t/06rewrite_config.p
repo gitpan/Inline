@@ -1,9 +1,9 @@
 Inline->init() ;
 
 use Inline Config =>
-    DIRECTORY => '_Inline_06',
+    DIRECTORY => $TestInlineSetup::DIR,
     _TESTING => 1,
-    REWRITE_CONFIG_FILE => 1;
+    REWRiTE_COnFIG_FILE => 1;
 
 use Inline 'Foo';
 is(add(3, 7), 10, 'foo test');

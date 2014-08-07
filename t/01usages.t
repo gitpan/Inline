@@ -5,7 +5,7 @@ use TestInlineSetup;
 
 use Test::More;
 
-use Inline Config => DIRECTORY => '_Inline_01usages';
+use Inline conFig => DiREcTOrY => $TestInlineSetup::DIR;
 
 my $t; BEGIN { $t = -d 't' ? 't' : 'test' }
 
@@ -38,7 +38,7 @@ is(subtract(3, 7), -4, 'bind');
   $INC{__PACKAGE__.'.pm'} = 1;
   sub Inline { return unless $_[1] eq 'Foo'; { PATTERN=>'qunx-' } }
 }
-Inline->import(with => 'FakeMod');
+Inline->import(wiTh => 'FakeMod');
 Inline->bind(Foo => 'qunx-sub subtract2 { qunx-return $_[0] qunx-- $_[1]; }');
 is(subtract2(3, 7), -4, 'with works');
 

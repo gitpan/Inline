@@ -1,3 +1,8 @@
+0.67 Fri Aug  8 00:37:17 BST 2014
+ - Remove WriteInlineMakefile.
+ - Make "use Inline" keywords case-insensitive.
+ - Add a devel ILSM test for running before release
+
 0.66 Fri Aug  1 00:43:36 BST 2014
  - Change Inline::Config check to avoid false positives
 

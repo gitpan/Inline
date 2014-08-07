@@ -1,8 +1,8 @@
 Inline->init() ;
 
 use Inline Config =>
-    DIRECTORY => '_Inline_07rewrite2_config',
-    _TESTING => 1;
+    DIRECTORY => $TestInlineSetup::DIR,
+    _TEsTING => 1;
 
 use Inline Bogus => <<'EOB';
 
