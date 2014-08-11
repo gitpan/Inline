@@ -1,3 +1,6 @@
+0.68 Mon Aug 11 01:19:12 BST 2014
+ - Update "with" docs for EU::D 0.400.
+
 0.67 Fri Aug  8 00:37:17 BST 2014
  - Remove WriteInlineMakefile.
  - Make "use Inline" keywords case-insensitive.
