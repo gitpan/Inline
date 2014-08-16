@@ -27,7 +27,7 @@ lib/Inline/MakeMaker.pm
 lib/Inline/MakeMaker/Changes
 lib/Inline/Support.pod
 lib/Inline/denter.pm
-t/000-compile-modules.t
+t/000-require-modules.t
 t/01usages.t
 t/02config.t
 t/03errors.t
