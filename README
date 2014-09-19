@@ -567,7 +567,7 @@ CONFIGURATION OPTIONS
         Note that you must create the "directory" directory yourself. Inline
         will not do it for you.
 
-    NAME
+    name
         You can use this option to set the name of your Inline extension
         object module. For example:
 
@@ -629,6 +629,16 @@ CONFIGURATION OPTIONS
 
         Modules specified using the config form of "with" will not be
         automatically required. You must "use" them yourself.
+
+    using
+        You can override modules that get used by ILSMs with the "using"
+        option. This is typically used to override the default parser for
+        Inline::C, but might be used by any ILSM for any purpose.
+
+            use Inline config => using => '::Parser::RecDescent';
+            use Inline C => '...';
+
+        This would tell Inline::C to use Inline::C::Parser::RecDescent.
 
     global_load
         This option is for compiled languages only. It tells Inline to tell
@@ -924,15 +934,26 @@ HOW INLINE WORKS
     *   Receive the Source Code
 
         Inline gets the source code from your script or module with a
-        statements like the following: use Inline C => "Source-Code"; or use
-        Inline; bind Inline C => "Source-Code"; where "C" is the programming
-        language of the source code, and "Source- Code" is a string, a file
-        name, an array reference, or the special 'DATA' keyword. Since
-        Inline is coded in a ""use"" statement, everything is done during
-        Perl's compile time. If anything needs to be done that will affect
-        the "Source- Code", it needs to be done in a "BEGIN" block that is
-        *before* the ""use Inline ..."" statement. If you really need to
-        specify code to Inline at runtime, you can use the "bind()" method.
+        statements like the following:
+
+            use Inline C => "Source-Code";
+
+        or
+
+            use Inline;
+            bind Inline C => "Source-Code";
+
+        where "C" is the programming language of the source code, and
+        "Source- Code" is a string, a file name, an array reference, or the
+        special 'DATA' keyword.
+
+        Since Inline is coded in a ""use"" statement, everything is done
+        during Perl's compile time. If anything needs to be done that will
+        affect the "Source- Code", it needs to be done in a "BEGIN" block
+        that is *before* the ""use Inline ..."" statement. If you really
+        need to specify code to Inline at runtime, you can use the "bind()"
+        method.
+
         Source code that is stowed in the 'DATA' section of your code, is
         read in by an "INIT" subroutine in Inline. That's because the "DATA"
         filehandle is not available at compile time.
@@ -946,30 +967,43 @@ HOW INLINE WORKS
         virtually unique. The fingerprint along with a bunch of other
         contingency information is stored in a ".inl" file that sits next to
         your executable object. For instance, the "C" code from a script
-        called "example.pl" might create these files: example_pl_3a9a.so
-        example_pl_3a9a.inl If all the contingency information matches the
-        values stored in the ".inl" file, then proceed to step 8. (No
-        compilation is necessary)
+        called "example.pl" might create these files:
+
+            example_pl_3a9a.so
+            example_pl_3a9a.inl
+
+        If all the contingency information matches the values stored in the
+        ".inl" file, then proceed to step 8. (No compilation is necessary)
 
     *   Find a Place to Build and Install
 
         At this point Inline knows it needs to build the source code. The
         first thing to figure out is where to create the great big mess
         associated with compilation, and where to put the object when it's
-        done. By default Inline will try to build and install under the
-        first place that meets one of the following conditions: A) The
-        DIRECTORY= config option; if specified B) The PERL_INLINE_DIRECTORY
-        environment variable; if set C) .Inline/ (in current directory); if
-        exists and $PWD != $HOME D) bin/.Inline/ (in directory of your
-        script); if exists E) ~/.Inline/; if exists F) ./_Inline/; if exists
-        G) bin/_Inline; if exists H) Create ./_Inline/; if possible I)
-        Create bin/_Inline/; if possible Failing that, Inline will croak.
-        This is rare and easily remedied by just making a directory that
-        Inline will use. If the PERL_INSTALL_ROOT Environment Variable has
-        been set, you will need to make special provision for that if the
-        'make install' phase of your Inline scripts are to succeed. If the
-        module option is being compiled for permanent installation, then
-        Inline will only use "./_Inline/" to build in, and the
+        done.
+
+        By default Inline will try to build and install under the first
+        place that meets one of the following conditions:
+
+            A) The DIRECTORY= config option; if specified
+            B) The PERL_INLINE_DIRECTORY environment variable; if set
+            C) .Inline/ (in current directory); if exists and $PWD != $HOME
+            D) bin/.Inline/ (in directory of your script); if exists
+            E) ~/.Inline/; if exists
+            F) ./_Inline/; if exists
+            G) bin/_Inline; if exists
+            H) Create ./_Inline/; if possible
+            I) Create bin/_Inline/; if possible
+
+        Failing that, Inline will croak. This is rare and easily remedied by
+        just making a directory that Inline will use.
+
+        If the PERL_INSTALL_ROOT Environment Variable has been set, you will
+        need to make special provision for that if the 'make install' phase
+        of your Inline scripts are to succeed.
+
+        If the module option is being compiled for permanent installation,
+        then Inline will only use "./_Inline/" to build in, and the
         $Config{installsitearch} directory to install the executable in.
         This action is caused by Inline::MakeMaker, and is intended to be
         used in modules that are to be distributed on the CPAN, so that they
@@ -1012,8 +1046,9 @@ HOW INLINE WORKS
 
         For C (and C++), Inline uses the "DynaLoader::bootstrap" method to
         pull your external module into "Perl" space. Now you can call all of
-        your external functions like Perl subroutines. Other languages like
-        Python and Java, provide their own loaders.
+        your external functions like Perl subroutines.
+
+        Other languages like Python and Java, provide their own loaders.
 
 SEE ALSO
     For information about using Inline with C see Inline::C.

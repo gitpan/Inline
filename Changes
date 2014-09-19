@@ -1,3 +1,7 @@
+0.77 Fri Sep 19 23:13:20 UTC 2014
+ - Allow new USING usages.
+ - Updated the docs.
+
 0.76 Tue Aug 19 16:43:41 PDT 2014
  - Missed a TAB in previous release :\
 
